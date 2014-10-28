@@ -1,0 +1,14 @@
+
+As an example, the following RTF code:
+
+{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0
+Hello!\par\par
+This is some {\b bold} text.\par
+}
+would be rendered like this when read by an appropriate word processor:
+
+Hello!
+
+This is some bold text.
+
+A backslash (\) starts an RTF control code. The \par control code indicates a new line, and \b switches to a bold typeface. Braces ({ and }) define a group; the example uses a group to limit the scope of the \b control code. Everything else will be treated as clear text, or the text to be formatted. A valid RTF document is a group starting with the \rtf control code.

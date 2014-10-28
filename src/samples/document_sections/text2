@@ -1,0 +1,6 @@
+
+RTF is a 7-bit format. That would limit it to ASCII, but RTF can encode characters beyond ASCII by escape sequences. The character escapes are of two types: code page escapes and Unicode escapes. In a code page escape, two hexadecimal digits following an apostrophe are used for denoting a character taken from a Windows code page. For example, if control codes specifying Windows-1256 are present, the sequence 'c8 will encode the Arabic letter beh (?).
+
+If a Unicode escape is required, the control word \u is used, followed by a 16-bit signed decimal integer giving the Unicode codepoint number. For the benefit of programs without Unicode support, this must be followed by the nearest representation of this character in the specified code page. For example, \u1576? would give the Arabic letter beh, specifying that older programs which do not have Unicode support should render it as a question mark instead.
+
+The control word \uc0 can be used to indicate that subsequent Unicode escape sequences within the current group do not specify a substitution character.

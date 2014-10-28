@@ -1,0 +1,13 @@
+*.pro.user
+*.pro
+*.txt.user
+build-*
+*build*
+bin
+*.so
+*.so.*
+*.exe
+*.o
+*.dll
+Makefile
+Makefile*
