@@ -1,9 +1,3 @@
-# This file is part of LyX, the document processor.
-# Licence details can be found in the file COPYING.
-#
-# Copyright (c) 2006-2011 Peter Kümmel, <syntheticpp@gmx.net>
-#
-
 project(boost_regex)
 
 set(boost_regex_sources
@@ -18,10 +12,4 @@ set(boost_regex_sources
 	static_mutex.cpp
 	w32_regex_traits.cpp)
 
-lyx_add_path(boost_regex_sources src)
-
-add_library(boost_regex STATIC ${boost_regex_sources})
-#MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-set_target_properties(boost_regex PROPERTIES FOLDER "3rd_party")
-
+add_library(boost_regex SHARED ${boost_regex_sources})

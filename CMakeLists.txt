@@ -1,5 +1,6 @@
 project(cpprtf-build)
 cmake_minimum_required(VERSION 2.8)
-set(TOP_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(TOP_SRC_DIR ${CMAKE_SOURCE_DIR})
 add_subdirectory(boost)
-add_subdirectory(src)
+add_subdirectory(cpprtf-lib)
+add_subdirectory(samples)

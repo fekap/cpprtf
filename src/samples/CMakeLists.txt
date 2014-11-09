@@ -1,5 +1,0 @@
-add_definitions(-DSRC_PATH=\"${TOP_SRC_DIR}/samples/\")
-add_subdirectory(hello_world)
-add_subdirectory(document_sections)
-add_subdirectory(chess_tournament)
-add_subdirectory(lists)
