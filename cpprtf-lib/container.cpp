@@ -20,17 +20,17 @@ CppRtf_Endnote *CppRtf_Container::addEndnote(string noteText, CppRtf_Font *font,
 
 void CppRtf_Container::addList(CppRtf_List *list)
 {
-    addElement(list);
+    addElement(list,true);
 }
 
 void CppRtf_Container::addEnumeration(CppRtf_List_Enumeration *enumeration)
 {
-    addElement(enumeration);
+    addElement(enumeration,true);
 }
 
 void CppRtf_Container::addNumbering(CppRtf_List_Numbering *numbering)
 {
-    addElement(numbering);
+    addElement(numbering,true);
 }
 
 CppRtf_FormField_Checkbox *CppRtf_Container::addCheckbox(CppRtf_Font *font, CppRtf_ParFormat *parFormat)

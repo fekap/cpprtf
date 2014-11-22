@@ -39,6 +39,47 @@ CppRtf::CppRtf()
     m_zoomMode = ZOOM_MODE_NONE;
 }
 
+CppRtf::~CppRtf()
+{
+    delete m_writer;
+    if (m_noteDocHead!=0)
+    {
+        delete m_noteDocHead;
+        m_noteDocHead = 0;
+    }
+    for (vector<CppRtf_Container_Section*>::iterator it = m_sections.begin(); it!=m_sections.end(); ++it)
+    {
+        delete *it;
+        *it = 0;
+    }
+    if (m_colorTable != 0) {
+        delete m_colorTable;
+        m_colorTable = 0;
+    }
+    if (m_fontTable != 0) {
+        delete m_fontTable;
+        m_fontTable = 0;
+    }
+    for(vector<CppRtf_Container_Section*>::iterator it = m_sections.begin(); it != m_sections.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+    for(vector<CppRtf_Container_Header*>::iterator it = m_headers.begin(); it != m_headers.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+    for(vector<CppRtf_Container_Footer*>::iterator it = m_footers.begin(); it != m_footers.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+
+    if(m_border != 0){
+        delete m_border;
+        m_border = 0;
+    }
+
+}
+
 void CppRtf::setUseTemporaryFile(bool flag)
 {
     m_useTemporaryFile = flag;
@@ -310,7 +351,7 @@ void CppRtf::setHyphenation()
 
 void CppRtf::setBorder(CppRtf_Border *border)
 {
-    m_border = border;
+    m_border = new CppRtf_Border(*border);
 }
 
 CppRtf_Border *CppRtf::getBorder()

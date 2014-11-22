@@ -8,13 +8,29 @@ CppRtf_List::CppRtf_List(CppRtf *rtf, int type, CppRtf_Font *font, CppRtf_ParFor
 {
     m_rtf = rtf;
     m_type = type;
-    m_font = font;
-    m_parFormat = parFormat;
+    m_font = font ? new CppRtf_Font(*font) : 0;
+    m_parFormat = parFormat ? new CppRtf_ParFormat(*parFormat) : 0;
     m_listIndent = CppRtf_Unit::UNIT_CM;
     m_textIndent = CppRtf_Unit::UNIT_CM;
 
     __name = typeid(this).name(); //for instanceOf;TODO
 
+}
+
+CppRtf_List::~CppRtf_List()
+{
+    if(m_font){
+        delete m_font;
+        m_font = 0;
+    }
+    if(m_parFormat){
+        delete m_parFormat;
+        m_parFormat = 0;
+    }
+    for(vector<BaseElement*>::iterator it = m_items.begin();it!= m_items.end(); it++){
+        delete  *it;
+        *it = 0;
+    }
 }
 
 CppRtf_List *CppRtf_List::addItem(string text, CppRtf_Font *font, CppRtf_ParFormat *parFormat, bool convertTagsToRtf)

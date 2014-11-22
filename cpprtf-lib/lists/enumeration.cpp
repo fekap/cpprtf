@@ -1,11 +1,16 @@
 #include "enumeration.h"
 #include "cpprtf.h"
 
+CppRtf_List_Enumeration::~CppRtf_List_Enumeration()
+{
+    if(m_listCharFont)
+        delete m_listCharFont;
+}
+
 CppRtf_List_Enumeration::CppRtf_List_Enumeration(CppRtf *rtf, int type, CppRtf_Font *font, CppRtf_ParFormat *parFormat)
     :CppRtf_List(rtf,type,font,parFormat)
 {
     this->initListCharDefinition();
-
     __name = typeid(this).name();
 }
 

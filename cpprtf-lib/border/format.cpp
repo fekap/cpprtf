@@ -12,6 +12,23 @@ CppRtf_Border_Format::CppRtf_Border_Format(float size, string color, FormatType 
     m_space   = CppRtf_Unit::getUnitInTwips(space);
 }
 
+CppRtf_Border_Format::CppRtf_Border_Format(CppRtf_Border_Format &format)
+{
+    m_size = format.m_size;
+    m_type = format.m_type;
+    m_color = format.m_color;
+    m_colorTable = format.m_colorTable? new CppRtf_DocHead_ColorTable(*format.m_colorTable) : 0;//rtf color table
+    m_space = format.m_space;
+}
+
+CppRtf_Border_Format::~CppRtf_Border_Format()
+{
+    if(m_colorTable){
+        delete m_colorTable;
+        m_colorTable = 0;
+    }
+}
+
 CppRtf_Border_Format::FormatType CppRtf_Border_Format::getType()
 {
     return m_type;
@@ -37,7 +54,11 @@ void CppRtf_Border_Format::setColorTable(CppRtf_DocHead_ColorTable *colorTable)
     if (!m_color.empty()) {
         colorTable->add(m_color);
     }
-    m_colorTable = colorTable;
+    if (m_colorTable)
+    {
+        delete m_colorTable;
+    }
+    m_colorTable = new CppRtf_DocHead_ColorTable(*colorTable);
 }
 
 string CppRtf_Border_Format::getContent()

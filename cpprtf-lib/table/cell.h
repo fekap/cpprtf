@@ -38,6 +38,8 @@ public:
      * columnIndex: column index for cell in TABLE_H */
     CppRtf_Table_Cell(CppRtf_Table* table,int rowIndex, int columnIndex);
 
+    ~CppRtf_Table_Cell();
+
     CppRtf_Table_Nested* addTable(TextAligment alignment = TEXT_ALIGN_LEFT); //adds nested table
 
     CppRtf_Table* getTable();//gets table instance

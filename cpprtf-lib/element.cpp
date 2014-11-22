@@ -6,17 +6,41 @@ CppRtf_Element::CppRtf_Element(CppRtf *rtf, string text, CppRtf_Font *font, CppR
     m_isRtfCode(false),
     m_convertTagsToRtf(false)
 {
-    if (font!=0) {
-        rtf->registerFont(font);
-    }
-    if (parFormat!=0) {
-        rtf->registerParFormat(parFormat);
-    }
-
     m_rtf         = rtf;
     m_text        = text;
-    m_font        = font;
-    m_parFormat   = parFormat;
+    m_font        = font? new CppRtf_Font(*font) : 0;
+    m_parFormat   = parFormat ? new CppRtf_ParFormat(*parFormat) : 0;
+
+    if (m_font!=0) {
+        rtf->registerFont(m_font);
+    }
+    if (m_parFormat!=0) {
+        rtf->registerParFormat(m_parFormat);
+    }
+}
+
+CppRtf_Element::CppRtf_Element(CppRtf_Element &element)
+{
+    m_rtf         = element.m_rtf;
+    m_text        = element.m_text;
+    m_isRtfCode   = element.m_isRtfCode;
+    m_convertTagsToRtf = element.m_convertTagsToRtf;
+    m_font        = element.m_font? new CppRtf_Font(*element.m_font) : 0;
+    m_parFormat   = element.m_parFormat ? new CppRtf_ParFormat(*element.m_parFormat) : 0;
+}
+
+
+
+CppRtf_Element::~CppRtf_Element()
+{
+    if(m_font!=0){
+        delete m_font;
+        m_font = 0;
+    }
+    if(m_parFormat!=0){
+        delete m_parFormat;
+        m_parFormat = 0;
+    }
 }
 
 bool CppRtf_Element::isEmptyParagraph()

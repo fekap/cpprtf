@@ -20,6 +20,8 @@ public:
             string text,
             CppRtf_Font *font = 0,
             CppRtf_ParFormat *parFormat = 0);
+    CppRtf_Footnote(CppRtf_Footnote &footnote);
+    ~CppRtf_Footnote();
 
     /*
      * constants for numbering type
@@ -45,31 +47,36 @@ public:
      *  19 => Footnote numbering—Chinese Zodiac numbering 2 (* zodiac2).
      *  20 => Footnote numbering—Chinese Zodiac numbering 3 (* zodiac3).
      */
-     static const int NUMTYPE_ARABIC_NUMBERS=0;
-     static const int NUMTYPE_ALPHABETH_LC=1;
-     static const int NUMTYPE_ALPHABETH_UC=2;
-     static const int NUMTYPE_ROMAN_LC=3;
-     static const int NUMTYPE_ROMAN_UC=4;
-     static const int NUMTYPE_CHICAGO=5;
-     static const int NUMTYPE_KOREAN_1=6;
-     static const int NUMTYPE_KOREAN_2=7;
-     static const int NUMTYPE_CIRCLE=8;
-     static const int NUMTYPE_KANJI_1=9;
-     static const int NUMTYPE_KANJI_2=10;
-     static const int NUMTYPE_KANJI_3=11;
-     static const int NUMTYPE_KANJI_4=12;
-     static const int NUMTYPE_DOUBLE_BYTE=13;
-     static const int NUMTYPE_CHINESE_1=14;
-     static const int NUMTYPE_CHINESE_2=15;
-     static const int NUMTYPE_CHINESE_3=16;
-     static const int NUMTYPE_CHINESE_4=17;
-     static const int NUMTYPE_CHINESE_ZODIAC_1=18;
-     static const int NUMTYPE_CHINESE_ZODIAC_2=19;
-     static const int NUMTYPE_CHINESE_ZODIAC_3=20;
 
-     static const string TYPE_SUPER;
-     static const string TYPE_SUB;
-     static const string TYPE_NORMAL;
+     enum NumberingType{
+         NUMTYPE_ARABIC_NUMBERS,
+         NUMTYPE_ALPHABETH_LC,
+         NUMTYPE_ALPHABETH_UC,
+         NUMTYPE_ROMAN_LC,
+         NUMTYPE_ROMAN_UC,
+         NUMTYPE_CHICAGO,
+         NUMTYPE_KOREAN_1,
+         NUMTYPE_KOREAN_2,
+         NUMTYPE_CIRCLE,
+         NUMTYPE_KANJI_1,
+         NUMTYPE_KANJI_2,
+         NUMTYPE_KANJI_3,
+         NUMTYPE_KANJI_4,
+         NUMTYPE_DOUBLE_BYTE,
+         NUMTYPE_CHINESE_1,
+         NUMTYPE_CHINESE_2,
+         NUMTYPE_CHINESE_3,
+         NUMTYPE_CHINESE_4,
+         NUMTYPE_CHINESE_ZODIAC_1,
+         NUMTYPE_CHINESE_ZODIAC_2,
+         NUMTYPE_CHINESE_ZODIAC_3
+     };
+
+     enum SettingType{
+         TYPE_SUPER,
+         TYPE_SUB,
+         TYPE_NORMAL
+     };
 
      //sets default font for notes
      static void setDefaultFont(CppRtf_Font* defaultFont);
@@ -89,7 +96,7 @@ public:
      //gets paragraph format
      CppRtf_ParFormat* getParFormat();
 
-     void setTypeSettingType(string type);
+     void setTypeSettingType(SettingType type);
 
      //gets type as rtf code
      virtual string getTypeAsRtfCode();
@@ -112,7 +119,7 @@ protected:
      CppRtf *m_rtf;
 
      //type setting type (superscript/subscript/normal)
-     string m_typeSettingType;
+     SettingType m_typeSettingType;
 
      //default font
      static CppRtf_Font *defaultFont;

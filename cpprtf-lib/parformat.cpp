@@ -12,9 +12,20 @@ CppRtf_ParFormat::CppRtf_ParFormat(TextAlign alignment):
     m_spaceAfter(0),
     m_spaceBetweenLines(0),
     m_shading(0),
-    m_border(0)
+    m_border(0),
+    m_colorTable(0)
 {
     m_alignment = alignment;
+}
+
+CppRtf_ParFormat::~CppRtf_ParFormat()
+{
+    if(m_border){
+        delete m_border;
+    }
+    if(m_colorTable){
+        delete m_colorTable;
+    }
 }
 
 void CppRtf_ParFormat::setTextAlignment(TextAlign alignment)
@@ -99,10 +110,10 @@ int CppRtf_ParFormat::getShading()
 
 void CppRtf_ParFormat::setColorTable(CppRtf_DocHead_ColorTable *colorTable)
 {
+    m_colorTable = colorTable? new CppRtf_DocHead_ColorTable(*colorTable) : 0;
     if (!m_backgroundColor.empty()) {
         m_colorTable->add(m_backgroundColor);
     }
-    m_colorTable = colorTable;
 }
 
 void CppRtf_ParFormat::setBackgroundColor(string backgroundColor)
@@ -120,7 +131,7 @@ string CppRtf_ParFormat::getBackgroundColor()
 
 void CppRtf_ParFormat::setBorder(CppRtf_Border *border)
 {
-    m_border = border;
+    m_border = border? new CppRtf_Border(*border) : 0;
 }
 
 CppRtf_Border *CppRtf_ParFormat::getBorder()
@@ -175,7 +186,7 @@ string CppRtf_ParFormat::getContent()
                 content += "\\sl" + numtostr(m_spaceBetweenLines) +  " ";
             }
 
-            if (m_border!=0) {
+            if (m_border) {
                 content += m_border->getContent("\\");
             }
 

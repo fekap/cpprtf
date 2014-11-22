@@ -15,6 +15,10 @@ public:
                    CppRtf_Font* font = 0,
                    CppRtf_ParFormat* parFormat = 0);
 
+    CppRtf_Element(CppRtf_Element &element);
+
+    ~CppRtf_Element();
+
     //checks, if element is an empty paragraph
     bool isEmptyParagraph();
 

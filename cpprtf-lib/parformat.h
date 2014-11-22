@@ -24,6 +24,8 @@ public:
     };
     CppRtf_ParFormat(TextAlign alignment = CppRtf_ParFormat::TEXT_ALIGN_LEFT);
 
+    ~CppRtf_ParFormat();
+
     //sets text alignment
     void setTextAlignment(TextAlign alignment);
 

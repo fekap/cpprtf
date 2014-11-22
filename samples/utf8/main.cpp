@@ -23,20 +23,20 @@ string readFile(string fileName){
 int main()
 {
     //Rtf document
-    CppRtf* rtf = new CppRtf();
+    CppRtf rtf;
 
     //Font
-    CppRtf_Font* times12 = new CppRtf_Font(12, "Times new Roman");
+    CppRtf_Font times12(12, "Times new Roman");
 
     //Section
-    CppRtf_Container_Section* sect = rtf->addSection();
+    CppRtf_Container_Section* sect = rtf.addSection();
     //Write utf-8 encoded text+
     //Text is from file+ But you can use another resouce: db, sockets and other
     string path = string(SRC_PATH)+"sources/utf8.txt";
-    sect->writeText(readFile(path), times12);
+    sect->writeText(readFile(path), &times12);
 
     // save rft document
-    rtf->save("utf8.rtf");
+    rtf.save("utf8.rtf");
 
 }
 

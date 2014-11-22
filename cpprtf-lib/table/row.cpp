@@ -6,6 +6,14 @@ CppRtf_Table_Row::CppRtf_Table_Row(CppRtf_Table *table, int rowIndex, float heig
 {
 }
 
+CppRtf_Table_Row::~CppRtf_Table_Row()
+{
+    for(vector<CppRtf_Table_Cell*>::iterator it = m_cells.begin(); it != m_cells.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+}
+
 void CppRtf_Table_Row::setHeight(float height)
 {
     m_height = height;

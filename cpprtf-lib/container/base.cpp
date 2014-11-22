@@ -8,9 +8,15 @@ CppRtf_Container_Base::CppRtf_Container_Base(CppRtf *rtf):
     m_pard("\\pard ")
 {
     m_rtf=rtf;
-
-//    __hash = BaseElement::_hash((unsigned char*)typeid(this).name()); //for instanceOf
     __name = typeid(this).name();
+}
+
+CppRtf_Container_Base::~CppRtf_Container_Base()
+{
+    for(vector<BaseElement*>::iterator it = m_elements.begin();it!= m_elements.end(); it++){
+        delete  *it;
+        *it = 0;
+    }
 }
 
 CppRtf *CppRtf_Container_Base::getRtf()
@@ -46,13 +52,17 @@ CppRtf_Element *CppRtf_Container_Base::writePlainRtfCode(string code)
 
 CppRtf_Element *CppRtf_Container_Base::addEmptyParagraph(CppRtf_Font *font, CppRtf_ParFormat *parFormat)
 {
+    bool deleteAfter = false;
     if (parFormat == 0) {
         parFormat = new CppRtf_ParFormat();
+        deleteAfter = true;
     }
     CppRtf_Element* element = new CppRtf_Element(m_rtf, "\\par", font, parFormat);
     element->setIsRtfCode();
     addElement(element);
-    return  element;
+    if(deleteAfter)
+        delete parFormat;
+    return element;
 }
 
 CppRtf_Element *CppRtf_Container_Base::writeText(string text, CppRtf_Font *font, CppRtf_ParFormat *parFormat, bool convertTagsToRtf)
@@ -93,7 +103,7 @@ CppRtf_Image *CppRtf_Container_Base::addImage(string fileName, CppRtf_ParFormat 
     return image;
 }
 
-CppRtf_Image *CppRtf_Container_Base::addImageFromString(string imageString, string type, CppRtf_ParFormat *parFormat, float width, float height)
+CppRtf_Image *CppRtf_Container_Base::addImageFromString(string imageString, CppRtf_Image::ImageType type, CppRtf_ParFormat *parFormat, float width, float height)
 {
     CppRtf_Image* image = CppRtf_Image::createFromString(m_rtf, imageString, type, width, height);
     if (parFormat) {

@@ -12,6 +12,7 @@ class CppRtf_Table_Row
 {
 public:
     CppRtf_Table_Row(CppRtf_Table* table,int rowIndex, float height = -100);
+    ~CppRtf_Table_Row();
 
     void setHeight(float height); //sets row height
 
@@ -26,7 +27,7 @@ public:
 protected:
     CppRtf_Table* m_table;
     int m_rowIndex;//row index in table
-    std::vector<CppRtf_Table_Cell*> m_cells;
+    vector<CppRtf_Table_Cell*> m_cells;
     float m_height; //row height
 
 };

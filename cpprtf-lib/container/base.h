@@ -21,6 +21,8 @@ public:
 
     CppRtf_Container_Base(CppRtf* rtf);
 
+    ~CppRtf_Container_Base();
+
     //gets rtf object
     CppRtf* getRtf();
 
@@ -83,7 +85,7 @@ public:
          * imageString   image source code
          * type class constants of PHPRtfLite_Image: TYPE_JPEG, TYPE_PNG, TYPE_WMF */
     CppRtf_Image* addImage(string fileName, CppRtf_ParFormat* parFormat = 0, float width = -1, float height = -1);
-    CppRtf_Image* addImageFromString(string imageString, string type, CppRtf_ParFormat* parFormat = 0, float width = -1, float height = -1);
+    CppRtf_Image* addImageFromString(string imageString, CppRtf_Image::ImageType type, CppRtf_ParFormat* parFormat = 0, float width = -1, float height = -1);
 
     //renders rtf code for that container
     void render();
@@ -100,10 +102,11 @@ protected:
 
     //adds element
     template<class type>
-    void addElement(type newClass){
+    BaseElement* addElement(type newClass, bool clone = false){
         BaseElement *e=new BaseElement();
-        e->set(newClass);
+        e->set(newClass,clone);
         m_elements.push_back(e);
+        return e;
     }
 
     CppRtf* m_rtf;

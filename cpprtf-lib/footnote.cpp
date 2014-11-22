@@ -5,25 +5,42 @@ CppRtf_Footnote::CppRtf_Footnote(CppRtf *rtf, string text, CppRtf_Font *font, Cp
       m_rtf(rtf),
       m_typeSettingType(CppRtf_Footnote::TYPE_SUPER)
 {
-    if ((font==0) && (CppRtf_Footnote::defaultFont!=0)) {
-        font = CppRtf_Footnote::defaultFont;
+    m_font = font ? new CppRtf_Font(*font) : 0;
+    m_parFormat = parFormat ? new CppRtf_ParFormat(*parFormat) : 0;
+
+    if ((m_font==0) && (CppRtf_Footnote::defaultFont!=0)) {
+        m_font = CppRtf_Footnote::defaultFont ? new CppRtf_Font(*CppRtf_Footnote::defaultFont) : 0;
     }
 
-    if (font!=0) {
-        m_rtf->registerFont(font);
+    if (m_font!=0) {
+        m_rtf->registerFont(m_font);
     }
 
-    if (parFormat!=0) {
-        m_rtf->registerParFormat(parFormat);
+    if (m_parFormat!=0) {
+        m_rtf->registerParFormat(m_parFormat);
     }
+}
 
-    m_font        = font;
-    m_parFormat   = parFormat;
+CppRtf_Footnote::CppRtf_Footnote(CppRtf_Footnote &footnote)
+{
+    m_rtf = footnote.m_rtf;
+    m_font = footnote.m_font? new CppRtf_Font(*footnote.m_font) : 0;
+    m_parFormat = footnote.m_parFormat? new CppRtf_ParFormat(*footnote.m_parFormat) : 0;
+}
+
+CppRtf_Footnote::~CppRtf_Footnote()
+{
+    if (m_font)
+        delete m_font;
+    if (m_parFormat)
+        delete m_parFormat;
 }
 
 void CppRtf_Footnote::setDefaultFont(CppRtf_Font *defaultFont)
 {
-    CppRtf_Footnote::defaultFont=defaultFont;
+    if (CppRtf_Footnote::defaultFont)
+        delete CppRtf_Footnote::defaultFont;
+    CppRtf_Footnote::defaultFont=defaultFont ? new CppRtf_Font(*defaultFont) : 0;
 }
 
 CppRtf_Font *CppRtf_Footnote::getDefaultFont()
@@ -33,8 +50,8 @@ CppRtf_Font *CppRtf_Footnote::getDefaultFont()
 
 void CppRtf_Footnote::setFont(CppRtf_Font *font)
 {
-    m_rtf->registerFont(font);
-    m_font=font;
+    font ? m_font= new CppRtf_Font(*font): 0;
+    m_rtf->registerFont(m_font);
 }
 
 CppRtf_Font *CppRtf_Footnote::getFont()
@@ -44,8 +61,8 @@ CppRtf_Font *CppRtf_Footnote::getFont()
 
 void CppRtf_Footnote::setParFormat(CppRtf_ParFormat *parFormat)
 {
-    m_rtf->registerParFormat(parFormat);
-    m_parFormat=parFormat;
+    parFormat ? m_parFormat= new CppRtf_ParFormat(*parFormat): 0;
+    m_rtf->registerParFormat(m_parFormat);
 }
 
 CppRtf_ParFormat *CppRtf_Footnote::getParFormat()
@@ -53,7 +70,7 @@ CppRtf_ParFormat *CppRtf_Footnote::getParFormat()
     return m_parFormat;
 }
 
-void CppRtf_Footnote::setTypeSettingType(string type)
+void CppRtf_Footnote::setTypeSettingType(SettingType type)
 {
     m_typeSettingType=type;
 }
@@ -67,9 +84,13 @@ void CppRtf_Footnote::render()
 {
     CppRtf_StreamOutput* stream = m_rtf->getWriter();
 
-    string typeSetting = m_typeSettingType != TYPE_NORMAL
-        ? "\\" + m_typeSettingType
-        : "";
+    string typeSetting = "";
+    if(m_typeSettingType == TYPE_SUPER){
+        typeSetting = "\\super";
+    }
+    if(m_typeSettingType == TYPE_SUB){
+        typeSetting = "\\sub";
+    }
 
     stream->write(
         "{" + typeSetting + "\\chftn}"
@@ -91,9 +112,5 @@ void CppRtf_Footnote::render()
         + "} "
     );
 }
-
-const string CppRtf_Footnote::TYPE_SUPER="super";
-const string CppRtf_Footnote::TYPE_SUB="sub";
-const string CppRtf_Footnote::TYPE_NORMAL="normal";
 
 CppRtf_Font *CppRtf_Footnote::defaultFont=0;

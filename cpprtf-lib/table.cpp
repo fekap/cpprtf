@@ -7,6 +7,18 @@ CppRtf_Table::CppRtf_Table(CppRtf_Container_Base *container, TableAligment align
 {
 }
 
+CppRtf_Table::~CppRtf_Table()
+{
+    for(vector<CppRtf_Table_Column*>::iterator it = m_columns.begin(); it != m_columns.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+    for(vector<CppRtf_Table_Row*>::iterator it = m_rows.begin(); it != m_rows.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+}
+
 int CppRtf_Table::getNestDepth()
 {
     return m_nestDepth;
@@ -174,7 +186,7 @@ CppRtf_Image *CppRtf_Table::addImageToCell(int rowIndex, int columnIndex, string
     return cell->addImage(file, parFormat, width, height);
 }
 
-CppRtf_Image *CppRtf_Table::addImageFromStringToCell(int rowIndex, int columnIndex, string imageString, string type, CppRtf_ParFormat *parFormat, float width, float height)
+CppRtf_Image *CppRtf_Table::addImageFromStringToCell(int rowIndex, int columnIndex, string imageString, CppRtf_Image::ImageType type, CppRtf_ParFormat *parFormat, float width, float height)
 {
     CppRtf_Table_Cell* cell = getCell(rowIndex, columnIndex);
     return cell->addImageFromString(imageString, type, parFormat, width, height);
@@ -322,9 +334,8 @@ void CppRtf_Table::setBorderForCellRange(CppRtf_Border *border, int startRow, in
         vector<CppRtf_Table_Cell *>  cells = this->getCellsByCellRange(startRow, startColumn, endRow, endColumn);
         for(vector<CppRtf_Table_Cell *>::iterator it=cells.begin();it!=cells.end();it++){
             CppRtf_Table_Cell *cell = *it;
-            cell->setBorder(new CppRtf_Border(border));
+            cell->setBorder(border);
         }
-        int bla = 4;
     }
 }
 

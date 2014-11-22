@@ -11,6 +11,7 @@ class CppRtf_Container_Section : public CppRtf_Container
 {
 public:
     CppRtf_Container_Section(CppRtf* rtf);
+    ~CppRtf_Container_Section();
 
     //sets landscape orientation for the section
     void setLandscape();

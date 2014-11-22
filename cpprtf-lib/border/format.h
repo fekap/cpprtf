@@ -26,6 +26,8 @@ public:
     };
 
     CppRtf_Border_Format(float size = 0.0, string color = "", FormatType type = TYPE_SINGLE, float space = 0.0);
+    CppRtf_Border_Format(CppRtf_Border_Format& format);
+    ~CppRtf_Border_Format();
 
     //gets border format type
     FormatType getType();

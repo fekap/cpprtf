@@ -9,6 +9,16 @@
 #include "list.h"
 #include "container/section.h"
 
+BaseElement::BaseElement()
+{
+    m_pointer = 0;
+}
+
+BaseElement::~BaseElement()
+{
+    smartPointer(m_pointer);
+}
+
 CppRtf_ParFormat *BaseElement::getParFormat()
 {
     if(instanceOf<CppRtf_Element*>()){

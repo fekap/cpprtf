@@ -16,6 +16,7 @@ public:
         TYPE_SQUARE,
         TYPE_DIAMOND
     };
+    ~CppRtf_List_Enumeration();
 
     CppRtf_List_Enumeration(CppRtf* rtf, int type = -1, CppRtf_Font* font = 0, CppRtf_ParFormat* parFormat = 0);
 

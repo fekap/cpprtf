@@ -18,6 +18,8 @@ class CppRtf_List
 public:
     CppRtf_List(CppRtf* rtf, int type = -1, CppRtf_Font* font = 0, CppRtf_ParFormat* parFormat = 0);
 
+    ~CppRtf_List();
+
     //adds item to list
     CppRtf_List* addItem(string text, CppRtf_Font* font = 0, CppRtf_ParFormat* parFormat = 0, bool convertTagsToRtf = true);
 

@@ -18,8 +18,23 @@ CppRtf_Table_Cell::CppRtf_Table_Cell(CppRtf_Table *table, int rowIndex, int colu
     m_paddingRight = -1;//null
     m_paddingTop = -1;//null
     m_paddingBottom = -1; //null
+    m_verticalAlignment = VERTICAL_ALIGN_NULL;
+    m_rotateTo = ROTATE_NULL;
+    m_alignment = TEXT_ALIGN_NULL;
 
     __name = typeid(this).name();
+}
+
+CppRtf_Table_Cell::~CppRtf_Table_Cell()
+{
+    if(m_font!=0){
+        delete m_font;
+        m_font = 0;
+    }
+    if(m_border!=0){
+        delete m_border;
+        m_border = 0;
+    }
 }
 
 CppRtf_Table_Nested *CppRtf_Table_Cell::addTable(CppRtf_Table_Cell::TextAligment alignment)
@@ -48,7 +63,9 @@ CppRtf_Table_Cell::TextAligment CppRtf_Table_Cell::getTextAligment()
 void CppRtf_Table_Cell::setFont(CppRtf_Font *font)
 {
     m_rtf->registerFont(font);
-    m_font = font;
+    if(m_font)
+        delete m_font;
+    m_font = new CppRtf_Font(*font);
 }
 
 CppRtf_Font *CppRtf_Table_Cell::getFont()
@@ -133,7 +150,7 @@ float CppRtf_Table_Cell::getWidth()
 
 void CppRtf_Table_Cell::setCellBorder(CppRtf_Border *border)
 {
-    m_border = border;
+    m_border = new CppRtf_Border(*border);
 }
 
 CppRtf_Border *CppRtf_Table_Cell::getBorder()
@@ -148,8 +165,9 @@ CppRtf_Border *CppRtf_Table_Cell::getBorderForCell(int rowIndex, int columnIndex
     if (border == 0) {
         border = new CppRtf_Border(m_rtf);
         cell->setCellBorder(border);
+        delete border;
     }
-    return border;
+    return cell->getBorder();;
 }
 
 void CppRtf_Table_Cell::setBorder(CppRtf_Border *border)

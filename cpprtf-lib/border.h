@@ -11,7 +11,8 @@ class CppRtf_Border
 {
 public:
     CppRtf_Border(CppRtf* rtf, CppRtf_Border_Format* left  = 0, CppRtf_Border_Format* top   = 0, CppRtf_Border_Format* right = 0, CppRtf_Border_Format* bottom = 0);
-    CppRtf_Border(CppRtf_Border* border);
+    CppRtf_Border(CppRtf_Border &border);
+    ~CppRtf_Border();
 
     /*
          * creates border by defining border format
@@ -34,7 +35,7 @@ public:
                                  bool left = true, bool top = true, bool right = true, bool bottom = true);
 
     //sets border format of element
-    void setBorders(CppRtf_Border_Format* borderFormat, bool left = true, bool top = true, bool right = true, bool bottom = true);
+    void setBorders(CppRtf_Border_Format *borderFormat, bool left = true, bool top = true, bool right = true, bool bottom = true);
 
     //sets border format for left border
     void setBorderLeft(CppRtf_Border_Format* borderFormat);

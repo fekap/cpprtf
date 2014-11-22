@@ -23,6 +23,8 @@ public:
 
     CppRtf_Table(CppRtf_Container_Base *container, TableAligment alignment = ALIGN_LEFT, int nestDepth = 1);
 
+    ~CppRtf_Table();
+
     //gets nested depth
     int getNestDepth();
 
@@ -125,7 +127,7 @@ public:
            * type           image type (GD, WMF) //TODO: добавить больше типов
            */
       CppRtf_Image* addImageToCell(int rowIndex, int columnIndex, string file, CppRtf_ParFormat* parFormat = 0, float width = -1, float height =-1);
-      CppRtf_Image* addImageFromStringToCell(int rowIndex, int columnIndex, string imageString, string type, CppRtf_ParFormat* parFormat = 0, float width = -1, float height = -1);
+      CppRtf_Image* addImageFromStringToCell(int rowIndex, int columnIndex, string imageString, CppRtf_Image::ImageType type, CppRtf_ParFormat* parFormat = 0, float width = -1, float height = -1);
 
       //corrects cell range to be valid
       static vector<int> getValidCellRange(int startRow, int startColumn, int endRow, int endColumn);

@@ -40,6 +40,8 @@ public:
 
     CppRtf();
 
+    ~CppRtf();
+
     /* set that a temporary file should be used for creating the output
          * NOTE: is slowing down the rendering because of the io operations, but uses less memory*/
     void setUseTemporaryFile(bool flag = true);

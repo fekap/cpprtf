@@ -13,6 +13,7 @@ CppRtf_Container_Section::CppRtf_Container_Section(CppRtf *rtf):CppRtf_Container
     m_font = 0;
     m_borderSurroundsHeader = false;
     m_borderSurroundsFooter = false;
+    m_useMirrorMargins = false;
 
     //null
     m_paperWidth = -1;
@@ -23,6 +24,26 @@ CppRtf_Container_Section::CppRtf_Container_Section(CppRtf *rtf):CppRtf_Container
     m_marginBottom = -1;
     m_spaceBetweenColumns = -1;
     m_gutter = -1;
+}
+
+CppRtf_Container_Section::~CppRtf_Container_Section()
+{
+    if(m_border != 0){
+        delete m_border;
+        m_border = 0;
+    }
+    if(m_font != 0){
+        delete m_font;
+        m_font = 0;
+    }
+    for(vector<CppRtf_Container_Header*>::iterator it = m_headers.begin(); it != m_headers.end(); it++){
+        delete *it;
+        *it = 0;
+    }
+    for(vector<CppRtf_Container_Footer*>::iterator it = m_footers.begin(); it != m_footers.end(); it++){
+        delete *it;
+        *it = 0;
+    }
 }
 
 void CppRtf_Container_Section::setLandscape()
@@ -140,7 +161,7 @@ float CppRtf_Container_Section::getLayoutWidth()
 
 void CppRtf_Container_Section::setBorder(CppRtf_Border *border)
 {
-    m_border = border;
+    m_border = new CppRtf_Border(*border);
 }
 
 CppRtf_Border *CppRtf_Container_Section::getBorder()
@@ -244,8 +265,8 @@ void CppRtf_Container_Section::insertPageBreak()
 
 void CppRtf_Container_Section::setFont(CppRtf_Font *font)
 {
-    m_font = font;
-    m_rtf->registerFont(font);
+    m_font = new CppRtf_Font(*font);
+    m_rtf->registerFont(m_font);
 }
 
 CppRtf_Font *CppRtf_Container_Section::getFont()

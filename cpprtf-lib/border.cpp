@@ -3,70 +3,100 @@
 
 CppRtf_Border::CppRtf_Border(CppRtf *rtf, CppRtf_Border_Format *left, CppRtf_Border_Format *top, CppRtf_Border_Format *right, CppRtf_Border_Format *bottom)
 {
-
     m_rtf = rtf;
-    if (left!=0) {
-        left->setColorTable(rtf->getColorTable());
+    m_borderLeft = left? new CppRtf_Border_Format(*left) : 0;
+    if (m_borderLeft!=0) {
+        m_borderLeft->setColorTable(rtf->getColorTable());
     }
-    m_borderLeft = left;
 
-    if (top!=0) {
-        top->setColorTable(rtf->getColorTable());
+    m_borderTop = top? new CppRtf_Border_Format(*top) : 0;
+    if (m_borderTop!=0) {
+        m_borderTop->setColorTable(rtf->getColorTable());
     }
-    m_borderTop = top;
 
-    if (right!=0) {
-        right->setColorTable(rtf->getColorTable());
+    m_borderRight = right? new CppRtf_Border_Format(*right) : 0;
+    if (m_borderRight!=0) {
+        m_borderRight->setColorTable(rtf->getColorTable());
     }
-    m_borderRight = right;
 
-    if (bottom!=0) {
-        bottom->setColorTable(rtf->getColorTable());
+    m_borderBottom  = bottom? new CppRtf_Border_Format(*bottom) : 0;
+    if (m_borderBottom!=0) {
+        m_borderBottom->setColorTable(rtf->getColorTable());
     }
-    m_borderBottom    = bottom;
 }
 
-CppRtf_Border::CppRtf_Border(CppRtf_Border *border)
+CppRtf_Border::CppRtf_Border(CppRtf_Border &border)
 {
-    m_rtf = border->m_rtf;
-    m_borderBottom = border->m_borderBottom;
-    m_borderLeft = border->m_borderLeft;
-    m_borderRight = border->m_borderRight;
-    m_borderTop = border->m_borderTop;
+    m_rtf = border.m_rtf;
+    m_borderBottom = border.m_borderBottom ? new CppRtf_Border_Format(*border.m_borderBottom) : 0;
+    m_borderLeft = border.m_borderLeft ? new CppRtf_Border_Format(*border.m_borderLeft) : 0;
+    m_borderRight = border.m_borderRight ? new CppRtf_Border_Format(*border.m_borderRight) : 0;
+    m_borderTop = border.m_borderTop ? new CppRtf_Border_Format(*border.m_borderTop) : 0;
+}
+
+CppRtf_Border::~CppRtf_Border()
+{
+    if(m_borderBottom!=0){
+        delete m_borderBottom;
+    }
+    if(m_borderLeft!=0){
+        delete m_borderLeft;
+    }
+    if(m_borderRight!=0){
+        delete m_borderRight;
+    }
+    if(m_borderTop!=0){
+        delete m_borderTop;
+    }
 }
 
 CppRtf_Border *CppRtf_Border::create(CppRtf *rtf, float size, string color, CppRtf_Border_Format::FormatType type, float space, bool left, bool top, bool right, bool bottom)
 {
     CppRtf_Border* border = new CppRtf_Border(rtf);
-    border->setBorders(new CppRtf_Border_Format(size, color, type, space), left, top, right, bottom);
+    CppRtf_Border_Format* format = new CppRtf_Border_Format(size, color, type, space);
+    border->setBorders(format, left, top, right, bottom);
+    delete format;
     return border;
 }
 
 void CppRtf_Border::setBorders(CppRtf_Border_Format *borderFormat, bool left, bool top, bool right, bool bottom)
 {
-    borderFormat->setColorTable(m_rtf->getColorTable());
-
     if (left) {
-        m_borderLeft  = borderFormat;
+        if(m_borderLeft!=0){
+            delete m_borderLeft;
+        }
+        m_borderLeft  = new CppRtf_Border_Format(*borderFormat);
+        m_borderLeft->setColorTable(m_rtf->getColorTable());
     }
 
     if (top) {
-        m_borderTop   = borderFormat;
+        if(m_borderTop!=0){
+            delete m_borderTop;
+        }
+        m_borderTop   = new CppRtf_Border_Format(*borderFormat);
+        m_borderTop->setColorTable(m_rtf->getColorTable());
     }
 
     if (right) {
-        m_borderRight = borderFormat;
+        if(m_borderRight!=0){
+            delete m_borderRight;
+        }
+        m_borderRight = new CppRtf_Border_Format(*borderFormat);
+        m_borderRight->setColorTable(m_rtf->getColorTable());
     }
 
     if (bottom) {
-        m_borderBottom = borderFormat;
+        if(m_borderBottom!=0){
+            delete m_borderBottom;
+        }
+        m_borderBottom = new CppRtf_Border_Format(*borderFormat);
+        m_borderBottom->setColorTable(m_rtf->getColorTable());
     }
 }
 
 void CppRtf_Border::setBorderLeft(CppRtf_Border_Format *borderFormat)
 {
     setBorders(borderFormat,true,false,false,false);
-    m_borderLeft = borderFormat;
 }
 
 CppRtf_Border_Format *CppRtf_Border::getBorderLeft()
