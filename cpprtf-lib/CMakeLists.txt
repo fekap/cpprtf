@@ -89,3 +89,15 @@ add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} boost_regex)
 #set_target_properties(${PROJECT_NAME} PROPERTIES
 #        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../bin")
+
+install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
+#install(TARGETS ${PROJECT_NAME} PUBLIC_HEADER INCLUDES DESTINATION include/cpprtf)
+#install (FILES ${HEADERS} DESTINATION include/cpprtf)
+foreach(HEADER ${HEADERS})
+ string(REGEX MATCH "(.*)[/\\]" DIR ${HEADER})
+ install(FILES ${HEADER} DESTINATION include/cpprtf/${DIR})
+endforeach(HEADER HEADERS)
+#include <CppRtf>
+#include "container/section.h"
+#include "parformat.h"
+

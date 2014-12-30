@@ -312,6 +312,8 @@ void CppRtf_Table_Cell::renderDefinition()
     if (border) {
         stream->write(border->getContent("\\cl"));
     }
+    else
+        cout<<"bla"<<endl;
 }
 
 void CppRtf_Table_Cell::render()
